@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout NeoGlass — Demo</title>
+  <link rel="icon" href="/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="particles"></div>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/logo.svg" alt="Checkout logo" class="brand-logo" />
+      <div class="brand-text">
+        <h1>Checkout NeoGlass</h1>
+        <p class="tag">Professional demo • KISS • DRY • YAGNI</p>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel card">
+      <form id="checkoutForm" class="form" novalidate>
+        <h2>Cart</h2>
+        <div id="itemsList" class="items-list" aria-live="polite"></div>
+        <div class="row small">
+          <button id="addItemBtn" type="button" class="btn ghost">+ Add item</button>
+          <div class="spacer"></div>
+          <label class="field">
+            <span>Tax rate</span>
+            <input id="taxRate" type="number" step="0.01" placeholder="0.20" aria-label="Tax rate" />
+          </label>
+          <label class="field">
+            <span>Discount</span>
+            <input id="discount" type="number" step="0.01" placeholder="0" aria-label="Discount" />
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn primary" type="submit">Calculate</button>
+          <button class="btn" type="button" id="resetBtn">Reset</button>
+          <div id="loader" class="loader" aria-hidden="true"></div>
+        </div>
+      </form>
+    </section>
+
+    <aside class="panel card result-panel" aria-live="polite">
+      <h2>Result</h2>
+      <pre id="resultOutput" class="output">No calculation yet.</pre>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <div>Made with ❤️ — Checkout NeoGlass • <small class="muted">API demo</small></div>
+    <div class="links"><a href="/health">Health</a> · <a href="#">Docs</a></div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+
+:root{
+  --bg-1: #2e1065;
+  --bg-2: #4c1d95;
+  --glass: rgba(255,255,255,0.06);
+  --accent: #8b5cf6;
+  --muted: #c4b5fd;
+  --text: #f8f7ff;
+  --card-radius: 16px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+  color:var(--text);
+  background: linear-gradient(180deg,var(--bg-1), var(--bg-2));
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(139,92,246,0.06) 1px, transparent 1px),radial-gradient(rgba(99,102,241,0.04) 1px, transparent 1px);background-size:120px 120px,200px 200px;mix-blend-mode: overlay}
+.topbar{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:20px;max-width:1100px;margin:0 auto 18px}
+.brand{display:flex;gap:14px;align-items:center}
+.brand-logo{width:64px;height:64px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+.brand-text h1{margin:0;font-size:1.25rem}
+.brand-text .tag{margin:2px 0 0 0;color:var(--muted);font-size:0.85rem}
+.controls{display:flex;gap:8px;align-items:center}
+.icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--text);cursor:pointer}
+.icon-btn:focus{outline:2px solid rgba(139,92,246,0.28);outline-offset:3px}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:20px;padding:0 20px;position:relative;z-index:5}
+@media(max-width:980px){.wrap{grid-template-columns:1fr}}
+.panel{background:var(--glass);border-radius:var(--card-radius);padding:20px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 40px rgba(0,0,0,0.35)}
+.items-list{margin-bottom:12px}
+.item-row{display:grid;grid-template-columns:1fr 120px 90px 40px;gap:8px;align-items:center;margin-bottom:10px;animation:pop 260ms ease}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+input{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text)}
+input:focus{outline:none;box-shadow:0 6px 30px rgba(139,92,246,0.18);border-color:var(--accent)}
+.btn{padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;border:1px dashed rgba(255,255,255,0.06);color:var(--text)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#6d28d9);color:white;box-shadow:0 8px 30px rgba(107,70,193,0.18)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(107,70,193,0.24)}
+.spacer{flex:1}
+.loader{width:64px;height:20px;display:inline-block;vertical-align:middle}
+.loader:before{content:'';display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:var(--accent);animation:dot 1s infinite}
+.loader:after{content:'';display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:rgba(139,92,246,0.7);animation:dot 1s infinite 0.15s}
+@keyframes dot{0%{transform:translateY(0);opacity:0.4}50%{transform:translateY(-6px);opacity:1}100%{transform:translateY(0);opacity:0.4}}
+.output{background:linear-gradient(180deg,rgba(0,0,0,0.28),rgba(0,0,0,0.18));padding:16px;border-radius:12px;white-space:pre-wrap;color:var(--text)}
+.footer{max-width:1100px;margin:28px auto;color:var(--muted);display:flex;justify-content:space-between;padding:0 20px}
+body.light{--bg-1:#f3f4f6;--bg-2:#eef2ff;--glass:rgba(10,7,18,0.04);--accent:#6d28d9;--muted:#6b7280;--text:#0b1020}
+#particles .particle{position:fixed;width:20px;height:20px;background:radial-gradient(circle at 30% 30%, rgba(139,92,246,0.9), rgba(99,102,241,0.4));border-radius:50%;filter:blur(8px);z-index:0;pointer-events:none;mix-blend-mode: screen;animation: floaty 10s linear infinite}
+@keyframes floaty{from { transform: translateY(0) scale(1); } 50% { transform: translateY(-40px) scale(1.08); } to { transform: translateY(0) scale(1); }}
+.icon-btn, .btn { transition: transform 160ms ease, box-shadow 160ms ease; }
+.icon-btn:hover, .btn:hover { transform: translateY(-2px); }
+:focus-visible { outline: 3px solid rgba(139,92,246,0.22); outline-offset:3px; }
+.output { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; font-size:0.95rem; }
