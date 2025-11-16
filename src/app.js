@@ -1,4 +1,3 @@
-
 const express = require('express');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -9,6 +8,16 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+
+// Request logging middleware
+app.use((req, res, next) => {
+  logger.info('Incoming request', {
+    method: req.method,
+    path: req.path,
+    ip: req.ip
+  });
+  next();
+});
 
 // API Documentation endpoint - MUST be before static middleware
 app.get('/docs', (req, res) => {
@@ -24,9 +33,12 @@ app.get('/docs', (req, res) => {
 
 // Health check endpoint - serves HTML page or JSON based on Accept header or query param
 app.get('/health', (req, res) => {
-  const wantsJson = req.query.format === 'json' || 
-                    (req.headers.accept && req.headers.accept.includes('application/json') && !req.headers.accept.includes('text/html'));
-  
+  const wantsJson =
+    req.query.format === 'json' ||
+    (req.headers.accept &&
+      req.headers.accept.includes('application/json') &&
+      !req.headers.accept.includes('text/html'));
+
   if (wantsJson) {
     const healthCheck = {
       status: 'healthy',
@@ -62,7 +74,7 @@ function formatUptime(seconds) {
   const hours = Math.floor((seconds % 86400) / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
-  
+
   if (days > 0) return `${days}j ${hours}h ${minutes}m`;
   if (hours > 0) return `${hours}h ${minutes}m ${secs}s`;
   if (minutes > 0) return `${minutes}m ${secs}s`;
@@ -73,7 +85,7 @@ app.use('/api', checkoutRoutes);
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
   logger.error('Unhandled error', { status, message });

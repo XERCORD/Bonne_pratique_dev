@@ -1,0 +1,7 @@
+node_modules/
+coverage/
+public/
+*.min.js
+dist/
+build/
+

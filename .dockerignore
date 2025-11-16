@@ -1,2 +1,10 @@
 node_modules
 npm-debug.log
+coverage
+.git
+tests
+docs
+.github
+.env
+.DS_Store
+*.log
