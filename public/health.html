@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Health Check — Checkout NeoGlass</title>
+  <link rel="icon" href="/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .health-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 5;
+    }
+    .health-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--glass);
+      border-radius: var(--card-radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      border: 1px solid rgba(15,23,42,0.05);
+    }
+    .health-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 15px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .status-badge.healthy {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    .health-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .health-card {
+      padding: 25px;
+      background: var(--glass);
+      border-radius: var(--card-radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      border: 1px solid rgba(15,23,42,0.05);
+      animation: fadeInUp 0.5s ease-out backwards;
+    }
+    .health-card:nth-child(1) { animation-delay: 0.1s; }
+    .health-card:nth-child(2) { animation-delay: 0.2s; }
+    .health-card:nth-child(3) { animation-delay: 0.3s; }
+    .health-card:nth-child(4) { animation-delay: 0.4s; }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .health-card h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .health-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--text);
+      margin: 10px 0;
+    }
+    .health-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(139,92,246,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #6d28d9);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(139,92,246,0.5);
+    }
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 15px 0 0 0;
+    }
+    .info-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text);
+    }
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+    .info-list .label {
+      color: var(--muted);
+    }
+    .info-list .value {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 200ms ease;
+    }
+    .back-link:hover {
+      background: rgba(139,92,246,0.2);
+      transform: translateX(-5px);
+    }
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms ease;
+      font-size: 1rem;
+    }
+    .refresh-btn:hover {
+      background: rgba(139,92,246,0.2);
+      transform: translateY(-2px);
+    }
+    .timestamp {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    body.light .progress-bar {
+      background: rgba(109,40,217,0.1);
+    }
+    body.light .progress-fill {
+      background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+    }
+  </style>
+</head>
+<body>
+  <div id="particles"></div>
+  
+  <div class="health-container">
+    <a href="/" class="back-link">
+      <span>←</span>
+      <span>Retour à l'application</span>
+    </a>
+
+    <div class="health-header">
+      <h1>💚 Health Check</h1>
+      <div class="status-badge healthy" id="statusBadge">
+        <span id="statusText">Healthy</span>
+      </div>
+      <div class="timestamp" id="timestamp"></div>
+    </div>
+
+    <div class="health-grid">
+      <div class="health-card">
+        <h3>🔄 Uptime</h3>
+        <div class="health-value" id="uptime">-</div>
+        <div class="health-label">Temps de fonctionnement</div>
+      </div>
+
+      <div class="health-card">
+        <h3>💾 Mémoire</h3>
+        <div class="health-value" id="memoryUsed">-</div>
+        <div class="health-label" id="memoryLabel">Utilisée / Totale</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="memoryProgress" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="health-card">
+        <h3>⚙️ Environnement</h3>
+        <ul class="info-list">
+          <li>
+            <span class="label">Service</span>
+            <span class="value" id="service">-</span>
+          </li>
+          <li>
+            <span class="label">Version</span>
+            <span class="value" id="version">-</span>
+          </li>
+          <li>
+            <span class="label">Environnement</span>
+            <span class="value" id="environment">-</span>
+          </li>
+          <li>
+            <span class="label">Node.js</span>
+            <span class="value" id="nodeVersion">-</span>
+          </li>
+          <li>
+            <span class="label">Plateforme</span>
+            <span class="value" id="platform">-</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="health-card">
+        <h3>✅ Checks</h3>
+        <ul class="info-list">
+          <li>
+            <span class="label">Serveur</span>
+            <span class="value" id="serverCheck">-</span>
+          </li>
+          <li>
+            <span class="label">API</span>
+            <span class="value" id="apiCheck">-</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="refresh-btn" onclick="loadHealthData()">
+        <span>🔄</span>
+        <span>Actualiser</span>
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>Made with ❤️ — Checkout NeoGlass • <small class="muted">API demo</small></div>
+    <div class="links">
+      <a href="/health" class="footer-link">
+        <span class="footer-icon">💚</span>
+        <span>Health</span>
+      </a>
+      <a href="/docs" class="footer-link">
+        <span class="footer-icon">📚</span>
+        <span>Docs</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'icon-btn';
+    themeToggle.setAttribute('aria-pressed', 'false');
+    themeToggle.setAttribute('title', 'Toggle theme');
+    themeToggle.textContent = '🌙';
+    themeToggle.style.position = 'fixed';
+    themeToggle.style.top = '20px';
+    themeToggle.style.right = '20px';
+    themeToggle.style.zIndex = '1000';
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light');
+      themeToggle.textContent = '☀️';
+      themeToggle.setAttribute('aria-pressed', 'true');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      const isLight = document.body.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeToggle.textContent = isLight ? '☀️' : '🌙';
+      themeToggle.setAttribute('aria-pressed', isLight);
+    });
+    
+    document.body.appendChild(themeToggle);
+
+    // Format uptime
+    function formatUptime(seconds) {
+      const days = Math.floor(seconds / 86400);
+      const hours = Math.floor((seconds % 86400) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = Math.floor(seconds % 60);
+      
+      if (days > 0) return `${days}j ${hours}h ${minutes}m`;
+      if (hours > 0) return `${hours}h ${minutes}m ${secs}s`;
+      if (minutes > 0) return `${minutes}m ${secs}s`;
+      return `${secs}s`;
+    }
+
+    // Format bytes
+    function formatBytes(bytes) {
+      return bytes + ' MB';
+    }
+
+    // Load health data
+    async function loadHealthData() {
+      try {
+        const response = await fetch('/health', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Health check failed');
+        }
+
+        const data = await response.json();
+        
+        // Update status
+        document.getElementById('statusText').textContent = data.status === 'healthy' ? 'Healthy' : 'Unhealthy';
+        document.getElementById('timestamp').textContent = new Date(data.timestamp).toLocaleString('fr-FR');
+        
+        // Update uptime
+        document.getElementById('uptime').textContent = data.uptimeFormatted || formatUptime(data.uptime);
+        
+        // Update memory
+        const memoryUsed = data.memory.used;
+        const memoryTotal = data.memory.total;
+        const memoryPercent = Math.round((memoryUsed / memoryTotal) * 100);
+        document.getElementById('memoryUsed').textContent = formatBytes(memoryUsed);
+        document.getElementById('memoryLabel').textContent = `${formatBytes(memoryUsed)} / ${formatBytes(memoryTotal)}`;
+        document.getElementById('memoryProgress').style.width = memoryPercent + '%';
+        
+        // Update environment info
+        document.getElementById('service').textContent = data.service || '-';
+        document.getElementById('version').textContent = data.version || '-';
+        document.getElementById('environment').textContent = data.environment || '-';
+        document.getElementById('nodeVersion').textContent = data.nodeVersion || '-';
+        document.getElementById('platform').textContent = data.platform || '-';
+        
+        // Update checks
+        document.getElementById('serverCheck').textContent = data.checks?.server || '-';
+        document.getElementById('apiCheck').textContent = data.checks?.api || '-';
+        
+      } catch (error) {
+        console.error('Error loading health data:', error);
+        document.getElementById('statusText').textContent = 'Error';
+        document.getElementById('statusBadge').classList.remove('healthy');
+        document.getElementById('statusBadge').classList.add('error');
+      }
+    }
+
+    // Load on page load
+    loadHealthData();
+    
+    // Auto-refresh every 5 seconds
+    setInterval(loadHealthData, 5000);
+  </script>
+</body>
+</html>
+

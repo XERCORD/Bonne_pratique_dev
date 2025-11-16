@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Documentation — Checkout NeoGlass</title>
+  <link rel="icon" href="/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .docs-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 5;
+    }
+    .docs-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--glass);
+      border-radius: var(--card-radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      border: 1px solid rgba(15,23,42,0.05);
+    }
+    .docs-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .docs-header .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 8px 0;
+    }
+    .docs-section {
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--glass);
+      border-radius: var(--card-radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      border: 1px solid rgba(15,23,42,0.05);
+      animation: fadeInUp 0.5s ease-out backwards;
+    }
+    .docs-section:nth-child(2) { animation-delay: 0.1s; }
+    .docs-section:nth-child(3) { animation-delay: 0.2s; }
+    .docs-section:nth-child(4) { animation-delay: 0.3s; }
+    .docs-section:nth-child(5) { animation-delay: 0.4s; }
+    .docs-section:nth-child(6) { animation-delay: 0.5s; }
+    .docs-section:nth-child(7) { animation-delay: 0.6s; }
+    .docs-section:nth-child(8) { animation-delay: 0.7s; }
+    .docs-section:nth-child(9) { animation-delay: 0.8s; }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .docs-section h2 {
+      font-size: 1.8rem;
+      margin: 0 0 20px 0;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .docs-section h3 {
+      font-size: 1.4rem;
+      margin: 25px 0 15px 0;
+      color: var(--text);
+    }
+    .docs-section h4 {
+      font-size: 1.1rem;
+      margin: 20px 0 10px 0;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .docs-section p {
+      line-height: 1.7;
+      margin: 15px 0;
+      color: var(--text);
+    }
+    .docs-section ul, .docs-section ol {
+      margin: 15px 0;
+      padding-left: 25px;
+      line-height: 1.8;
+    }
+    .docs-section li {
+      margin: 8px 0;
+      color: var(--text);
+    }
+    .docs-section code {
+      background: rgba(139,92,246,0.15);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: var(--accent);
+    }
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      overflow-x: auto;
+      border: 1px solid rgba(139,92,246,0.2);
+    }
+    body.light .code-block {
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(109,40,217,0.2);
+    }
+    .code-block code {
+      background: transparent;
+      padding: 0;
+      color: #a78bfa;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    body.light .code-block code {
+      color: #6d28d9;
+    }
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 30px 0;
+      opacity: 0.3;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(139,92,246,0.2);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0 5px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 200ms ease;
+    }
+    .back-link:hover {
+      background: rgba(139,92,246,0.2);
+      transform: translateX(-5px);
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .feature-item {
+      padding: 15px;
+      background: rgba(139,92,246,0.08);
+      border-radius: 10px;
+      border: 1px solid rgba(139,92,246,0.15);
+    }
+    .api-example {
+      background: rgba(139,92,246,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      margin: 15px 0;
+    }
+    .highlight {
+      background: rgba(139,92,246,0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles"></div>
+  
+  <div class="docs-container">
+    <a href="/" class="back-link">
+      <span>←</span>
+      <span>Retour à l'application</span>
+    </a>
+
+    <div class="docs-header">
+      <h1>🟣 Bonne Pratique de Développement</h1>
+      <p class="subtitle"><em>Projet réalisé par <strong>Xerly</strong> & <strong>Romain</strong></em></p>
+      <p class="subtitle"><em>Formation : Ynov — Module "Bonnes pratiques de développement"</em></p>
+    </div>
+
+    <div class="docs-section">
+      <h2>🚀 Checkout NeoGlass</h2>
+      <p>Ce dépôt contient un projet complet illustrant les <span class="highlight">bonnes pratiques de développement</span>, conçu et réalisé par <strong>Xerly</strong> et <strong>Romain</strong> dans le cadre du module <em>"Bonne pratique de dév"</em>.</p>
+      <p>L'objectif est de mettre en pratique :</p>
+      <ul>
+        <li>une architecture propre et maintenable</li>
+        <li>une API structurée (Node.js + Express)</li>
+        <li>une interface moderne, claire et professionnelle</li>
+        <li>des tests unitaires & d'intégration</li>
+        <li>des validations robustes</li>
+        <li>du code lisible suivant les principes <span class="badge">KISS</span> <span class="badge">DRY</span> <span class="badge">YAGNI</span></li>
+      </ul>
+      <p>Le projet implémente une <strong>API Checkout</strong> ainsi qu'un <strong>frontend NeoGlass violet</strong> complet.</p>
+    </div>
+
+    <div class="docs-section">
+      <h2>✨ Fonctionnalités principales</h2>
+      
+      <h3>🔧 Backend (Node.js + Express)</h3>
+      <ul>
+        <li>Endpoint principal : <code>POST /api/checkout</code></li>
+        <li>Validation stricte du payload (prix, quantités, taxe, remise...)</li>
+        <li>Calcul propre et fiable :
+          <ul>
+            <li>sous-total</li>
+            <li>remise</li>
+            <li>taxes</li>
+            <li>total final</li>
+          </ul>
+        </li>
+        <li>Architecture claire :
+          <ul>
+            <li><code>controllers/</code></li>
+            <li><code>services/</code></li>
+            <li><code>utils/validators.js</code></li>
+            <li><code>routes/</code></li>
+          </ul>
+        </li>
+        <li>Gestion centralisée des erreurs</li>
+        <li>Logging via Winston</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <h3>🟣 Frontend — Checkout NeoGlass</h3>
+      <p>Une interface premium, moderne et responsive :</p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <strong>Thème violet NeoGlass</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Logo SVG créé from scratch</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Particules animées en fond</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Glassmorphism</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Light/Dark mode</strong> (persistant via localStorage)
+        </div>
+        <div class="feature-item">
+          <strong>Formulaire dynamique</strong> (ajout / suppression de produits)
+        </div>
+        <div class="feature-item">
+          <strong>Animation du résultat</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Loader stylé</strong>
+        </div>
+        <div class="feature-item">
+          <strong>Design responsive et accessible</strong>
+        </div>
+      </div>
+      <p>Le frontend communique directement avec l'API backend.</p>
+    </div>
+
+    <div class="docs-section">
+      <h2>📡 API Documentation</h2>
+      
+      <h3>POST /api/checkout</h3>
+      <p>Endpoint principal pour calculer le total d'un panier d'achat.</p>
+      
+      <h4>Request Body</h4>
+      <div class="api-example">
+        <p><strong>Format JSON :</strong></p>
+        <div class="code-block">
+          <code>{
+  "items": [
+    {
+      "name": "Produit A",
+      "price": 10.50,
+      "quantity": 2
+    },
+    {
+      "name": "Produit B",
+      "price": 25.00,
+      "quantity": 1
+    }
+  ],
+  "taxRate": 0.20,
+  "discount": 5.00
+}</code>
+        </div>
+      </div>
+
+      <h4>Paramètres</h4>
+      <ul>
+        <li><code>items</code> (array, requis) : Liste des articles
+          <ul>
+            <li><code>name</code> (string, requis) : Nom du produit</li>
+            <li><code>price</code> (number, requis) : Prix unitaire (doit être positif)</li>
+            <li><code>quantity</code> (integer, requis) : Quantité (doit être un entier positif)</li>
+          </ul>
+        </li>
+        <li><code>taxRate</code> (number, requis) : Taux de taxe (doit être >= 0)</li>
+        <li><code>discount</code> (number, optionnel, défaut: 0) : Montant de la remise (doit être >= 0)</li>
+      </ul>
+
+      <h4>Response</h4>
+      <div class="api-example">
+        <p><strong>Succès (200) :</strong></p>
+        <div class="code-block">
+          <code>{
+  "totalBeforeTax": 46.00,
+  "taxAmount": 9.20,
+  "total": 55.20
+}</code>
+        </div>
+      </div>
+
+      <h4>Erreurs</h4>
+      <ul>
+        <li><code>400 Bad Request</code> : Payload invalide ou validation échouée</li>
+        <li><code>500 Internal Server Error</code> : Erreur serveur</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <h3>GET /health</h3>
+      <p>Endpoint de vérification de santé du serveur.</p>
+      <div class="api-example">
+        <p><strong>Response (200) :</strong></p>
+        <div class="code-block">
+          <code>{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "uptime": 3600,
+  "memory": {
+    "used": 50,
+    "total": 512,
+    "unit": "MB"
+  }
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="docs-section">
+      <h2>🧪 Tests</h2>
+      <p>Inclus dans le projet :</p>
+      <ul>
+        <li><strong>Tests unitaires</strong> (Jest)</li>
+        <li><strong>Tests d'intégration API</strong> (SuperTest)</li>
+      </ul>
+      <h4>Lancer les tests</h4>
+      <div class="code-block">
+        <code>npm test</code>
+      </div>
+    </div>
+
+    <div class="docs-section">
+      <h2>🐳 Docker</h2>
+      <h4>Construire l'image</h4>
+      <div class="code-block">
+        <code>docker build -t checkout-neoglass .</code>
+      </div>
+      <h4>Lancer l'application</h4>
+      <div class="code-block">
+        <code>docker run -p 3000:3000 checkout-neoglass</code>
+      </div>
+    </div>
+
+    <div class="docs-section">
+      <h2>📁 Structure du projet</h2>
+      <div class="code-block">
+        <code>.
+├── src/
+│   ├── controllers/
+│   ├── routes/
+│   ├── services/
+│   ├── utils/
+│   └── app.js
+├── public/
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   ├── docs.html
+│   └── logo.svg
+├── tests/
+├── docs/
+├── Dockerfile
+├── .env.example
+├── package.json
+└── README.md</code>
+      </div>
+    </div>
+
+    <div class="docs-section">
+      <h2>📦 Installation & lancement</h2>
+      <h4>1. Installer les dépendances</h4>
+      <div class="code-block">
+        <code>npm install</code>
+      </div>
+      <h4>2. Lancer le serveur</h4>
+      <div class="code-block">
+        <code>npm start</code>
+      </div>
+      <h4>3. Accéder à l'interface</h4>
+      <p>👉 <a href="http://localhost:3000" style="color: var(--accent);">http://localhost:3000</a></p>
+    </div>
+
+    <div class="docs-section">
+      <h2>📚 Objectifs pédagogiques</h2>
+      <p>Ce projet met en pratique les bonnes pratiques suivantes :</p>
+      <ul>
+        <li>✔ Code lisible, clair et organisé</li>
+        <li>✔ Architecture modulaire (pattern MVC léger)</li>
+        <li>✔ Validation robuste des entrées</li>
+        <li>✔ Gestion d'erreurs cohérente</li>
+        <li>✔ Séparation propre Front / Back</li>
+        <li>✔ UI premium & UX agréable</li>
+        <li>✔ Documentation complète</li>
+        <li>✔ Utilisation correcte de Git et des branches</li>
+      </ul>
+    </div>
+
+    <div class="docs-section">
+      <h2>👤 Auteurs</h2>
+      <ul>
+        <li><strong>Xerly</strong></li>
+        <li><strong>Romain</strong></li>
+      </ul>
+      <p>Projet réalisé dans le cadre du module :<br>🎓 <em>Bonne pratique de dév — Ynov</em></p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>Made with ❤️ — Checkout NeoGlass • <small class="muted">API demo</small></div>
+    <div class="links">
+      <a href="/health" class="footer-link">
+        <span class="footer-icon">💚</span>
+        <span>Health</span>
+      </a>
+      <a href="/docs" class="footer-link">
+        <span class="footer-icon">📚</span>
+        <span>Docs</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'icon-btn';
+    themeToggle.setAttribute('aria-pressed', 'false');
+    themeToggle.setAttribute('title', 'Toggle theme');
+    themeToggle.textContent = '🌙';
+    themeToggle.style.position = 'fixed';
+    themeToggle.style.top = '20px';
+    themeToggle.style.right = '20px';
+    themeToggle.style.zIndex = '1000';
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light');
+      themeToggle.textContent = '☀️';
+      themeToggle.setAttribute('aria-pressed', 'true');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      const isLight = document.body.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeToggle.textContent = isLight ? '☀️' : '🌙';
+      themeToggle.setAttribute('aria-pressed', isLight);
+    });
+    
+    document.body.appendChild(themeToggle);
+  </script>
+</body>
+</html>
+

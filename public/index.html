@@ -1,6 +1,5 @@
-
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -10,6 +9,7 @@
 </head>
 <body>
   <div id="particles"></div>
+  
   <header class="topbar">
     <div class="brand">
       <img src="/logo.svg" alt="Checkout logo" class="brand-logo" />
@@ -49,16 +49,49 @@
     </section>
 
     <aside class="panel card result-panel" aria-live="polite">
-      <h2>Result</h2>
-      <pre id="resultOutput" class="output">No calculation yet.</pre>
+      <h2>Receipt</h2>
+      <div id="ticketContainer" class="ticket-container">
+        <div class="ticket" id="ticket">
+          <div class="ticket-header">
+            <div class="ticket-logo">🎫</div>
+            <div class="ticket-store">NEOGLASS STORE</div>
+            <div class="ticket-address">Professional Checkout Demo</div>
+            <div class="ticket-date" id="ticketDate"></div>
+          </div>
+          
+          <div class="ticket-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+          
+          <div id="ticketItems" class="ticket-items">
+            <div class="ticket-empty">No calculation yet</div>
+          </div>
+          
+          <div class="ticket-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+          
+          <div id="ticketTotals" class="ticket-totals"></div>
+          
+          <div class="ticket-footer">
+            <div class="ticket-thank">Thank you for your purchase!</div>
+            <div class="ticket-barcode">||||  ||  ||||  |  ||  ||||  ||  |||</div>
+          </div>
+        </div>
+      </div>
     </aside>
   </main>
 
   <footer class="footer">
     <div>Made with ❤️ — Checkout NeoGlass • <small class="muted">API demo</small></div>
-    <div class="links"><a href="/health">Health</a> · <a href="#">Docs</a></div>
+    <div class="links">
+      <a href="/health" class="footer-link">
+        <span class="footer-icon">💚</span>
+        <span>Health</span>
+      </a>
+      <a href="/docs" class="footer-link">
+        <span class="footer-icon">📚</span>
+        <span>Docs</span>
+      </a>
+    </div>
   </footer>
 
-  <script src="app.js" defer></script>
+  <script src="frontend.js" defer></script>
 </body>
 </html>
