@@ -1,12 +1,12 @@
 // Configuration
 let cartItems = [];
-let apiBaseUrl = 'http://localhost:5000';
+let apiBaseUrl = 'http://localhost:5001';
 
 // Fonction pour obtenir l'URL de l'API
 function getApiUrl() {
     const urlInput = document.getElementById('api-url');
     if (urlInput) {
-        apiBaseUrl = urlInput.value || 'http://localhost:5000';
+        apiBaseUrl = urlInput.value || 'http://localhost:5001';
     }
     return apiBaseUrl;
 }
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const apiUrlInput = document.getElementById('api-url');
     if (apiUrlInput) {
         apiUrlInput.addEventListener('change', function() {
-            apiBaseUrl = this.value || 'http://localhost:5000';
+            apiBaseUrl = this.value || 'http://localhost:5001';
         });
     }
     
