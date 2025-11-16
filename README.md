@@ -650,9 +650,16 @@ Ce projet est un projet éducatif réalisé dans le cadre d'un cours sur les bon
 
 <div align="center">
 
-### **Romain** et **Xerly**
+### **Créateurs du projet**
 
 Projet réalisé dans le cadre du cours sur les bonnes pratiques de développement.
+
+<br>
+
+[![Xerly Ji](https://img.shields.io/badge/GitHub-Xerly%20Ji-6e5494?style=for-the-badge&logo=github&logoColor=white)](https://github.com/XERCORD)
+[![Romain Daniel](https://img.shields.io/badge/GitHub-Romain%20Daniel-6e5494?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RomainD13122)
+
+<br>
 
 [🔗 Repository GitHub](https://github.com/XERCORD/Bonne_pratique_dev)
 
