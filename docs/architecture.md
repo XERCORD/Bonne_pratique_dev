@@ -1,200 +1,239 @@
-# Architecture — Checkout NeoGlass API
+# Note d'Architecture
 
-## Vue d'ensemble
+## 📐 Vue d'ensemble
 
-L'application suit une architecture modulaire inspirée du pattern MVC, avec une séparation claire des responsabilités.
+Ce document décrit l'architecture du système de checkout simplifié, en expliquant les choix de conception, le découpage en responsabilités, les dépendances et l'application des principes KISS, DRY et YAGNI.
 
-## Diagramme de flux
-
-```
-┌─────────────────┐
-│   Frontend      │
-│  (public/)      │
-│  index.html      │
-│  frontend.js    │
-└────────┬────────┘
-         │ HTTP POST
-         │ /api/checkout
-         ▼
-┌─────────────────┐
-│   Routes        │
-│ checkoutRoutes  │
-│  .post('/checkout') │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Controllers    │
-│checkoutController│
-│  - Validation   │
-│  - Logging      │
-│  - Error handling│
-└────────┬────────┘
-         │
-         ├─────────────────┐
-         │                 │
-         ▼                 ▼
-┌─────────────────┐ ┌─────────────────┐
-│   Services      │ │    Utils         │
-│checkoutService  │ │  validators.js   │
-│  - Calcul       │ │  - Validation   │
-│  - Business     │ │  - Error format │
-│    logic        │ │                 │
-└─────────────────┘ └─────────────────┘
-```
-
-## Structure des dossiers
+## 🏗️ Structure du projet
 
 ```
-src/
-├── app.js                 # Point d'entrée, configuration Express
-├── routes/
-│   └── checkoutRoutes.js  # Définition des routes API
-├── controllers/
-│   └── checkoutController.js  # Gestion des requêtes HTTP
-├── services/
-│   └── checkoutService.js    # Logique métier (calculs)
-└── utils/
-    ├── validators.js      # Validation centralisée
-    └── logger.js          # Configuration Winston
+.
+├── src/
+│   ├── models/          # Modèles de données (Product, Cart, Discount)
+│   ├── services/        # Logique métier (CheckoutService, TaxCalculator)
+│   ├── api/             # Couche API REST (Flask)
+│   └── main.py          # Point d'entrée
+├── tests/               # Tests unitaires et d'intégration
+├── docs/                # Documentation
+├── configs/             # Fichiers de configuration
+└── requirements.txt     # Dépendances
 ```
 
-## Flux de traitement d'une requête
+## 🎯 Découpage en responsabilités
 
-1. **Frontend** (`public/frontend.js`)
-   - Collecte les données du formulaire
-   - Envoie une requête POST à `/api/checkout`
+### 1. Couche Modèles (`src/models/`)
 
-2. **Routes** (`src/routes/checkoutRoutes.js`)
-   - Route `/api/checkout` → `controller.checkout`
+**Responsabilité** : Représenter les entités métier et leurs validations.
 
-3. **Controller** (`src/controllers/checkoutController.js`)
-   - Reçoit la requête HTTP
-   - Valide le payload via `validators.validateCheckoutPayload()`
-   - Appelle le service `checkoutService.calculateCheckout()`
-   - Log les résultats
-   - Gère les erreurs et renvoie la réponse
+- **`Product`** : Représente un produit avec ses attributs (id, nom, prix, catégorie)
+- **`Cart`** : Représente un panier d'achat avec ses articles
+- **`CartItem`** : Représente un article dans le panier (produit + quantité)
+- **`Discount`** : Représente une remise applicable
 
-4. **Service** (`src/services/checkoutService.js`)
-   - Logique métier pure (sans dépendance HTTP)
-   - Calcul du sous-total
-   - Application de la remise (capped)
-   - Calcul des taxes
-   - Calcul du total final
+**Principe appliqué** : **Séparation des responsabilités** - Les modèles ne contiennent que la logique de validation et de calcul simple (sous-total d'un article).
 
-5. **Utils** (`src/utils/validators.js`)
-   - Validation centralisée et réutilisable
-   - Vérification des types, valeurs, contraintes
-   - Génération d'erreurs formatées
+### 2. Couche Services (`src/services/`)
 
-## Justification KISS / DRY / YAGNI
+**Responsabilité** : Implémenter la logique métier complexe.
 
-### Pourquoi un service séparé ? (KISS + DRY)
+- **`TaxCalculator`** : Calcule les taxes applicables selon les catégories de produits
+- **`CheckoutService`** : Orchestre le calcul du total final (sous-total, remise, taxes)
 
-**KISS (Keep It Simple, Stupid) :**
-- Le service contient uniquement la logique de calcul, sans dépendance HTTP
-- Facile à comprendre et à tester isolément
-- Pas de complexité inutile
+**Principe appliqué** : **Séparation des responsabilités** - Chaque service a une responsabilité unique et bien définie.
 
-**DRY (Don't Repeat Yourself) :**
-- La logique de calcul est centralisée dans un seul endroit
-- Réutilisable si d'autres endpoints ont besoin de calculs similaires
-- Facilite la maintenance (un seul endroit à modifier)
+### 3. Couche API (`src/api/`)
 
-**Exemple :**
-```javascript
-// ✅ Service séparé - réutilisable
-const result = checkoutService.calculateCheckout(payload);
+**Responsabilité** : Exposer les fonctionnalités via une API REST.
 
-// ❌ Sans service - logique dupliquée dans chaque controller
-const subtotal = items.reduce(...);
-const discount = Math.min(...);
-// ... répété partout
+- **`app.py`** : Définit les endpoints Flask et gère les requêtes HTTP
+- Gestion des erreurs HTTP (400, 404, 409, 500)
+- Logging des opérations
+
+**Principe appliqué** : **Séparation des responsabilités** - La couche API ne contient pas de logique métier, elle délègue aux services.
+
+## 🔗 Dépendances
+
+### Graphique des dépendances
+
+```
+api/
+  └──> services/
+        └──> models/
 ```
 
-### Pourquoi une validation centralisée ? (DRY + KISS)
+**Règle** : Les dépendances vont toujours dans un seul sens :
+- L'API dépend des services
+- Les services dépendent des modèles
+- Les modèles ne dépendent de rien (sauf la bibliothèque standard)
 
-**DRY :**
-- Les règles de validation sont définies une seule fois dans `validators.js`
-- Réutilisables pour d'autres endpoints futurs
-- Cohérence garantie dans toute l'application
+### Détail des dépendances
 
-**KISS :**
-- Validation simple et claire, facile à comprendre
-- Messages d'erreur cohérents
-- Pas de validation dispersée dans plusieurs fichiers
+1. **`api/app.py`** → **`services/checkout_service.py`**
+   - Utilise `CheckoutService` pour calculer le total
 
-**Exemple :**
-```javascript
-// ✅ Validation centralisée
-validateCheckoutPayload(payload);
+2. **`api/app.py`** → **`services/tax_calculator.py`**
+   - Crée une instance de `TaxCalculator` pour le passer à `CheckoutService`
 
-// ❌ Sans validation centralisée - règles dupliquées
-if (!payload.items) throw new Error('...');
-if (!item.name) throw new Error('...');
-// ... répété dans chaque controller
+3. **`services/checkout_service.py`** → **`models/cart.py`**
+   - Utilise `Cart` pour accéder aux articles
+
+4. **`services/checkout_service.py`** → **`models/discount.py`**
+   - Utilise `Discount` pour calculer les remises
+
+5. **`services/tax_calculator.py`** → **`models/cart.py`**
+   - Utilise `Cart` pour itérer sur les articles et calculer les taxes
+
+6. **`models/cart.py`** → **`models/product.py`**
+   - Utilise `Product` dans `CartItem`
+
+**Aucune dépendance circulaire** : L'architecture respecte le principe de dépendances unidirectionnelles.
+
+## 🎨 Application des principes
+
+### KISS (Keep It Simple, Stupid)
+
+**Choix simples et directs** :
+
+1. **Stockage en mémoire** : Pour la démo, les produits et remises sont stockés en mémoire. En production, on utiliserait une base de données, mais pour ce projet, c'est suffisant.
+
+2. **Pas de framework complexe** : Utilisation de Flask (simple) plutôt que Django (plus complexe) car les besoins sont limités.
+
+3. **Pas de design patterns complexes** : Pas de Factory, Strategy, etc. La logique est directe et lisible.
+
+4. **Calculs simples** : Les calculs de taxes et remises sont implémentés de manière directe, sans sur-ingénierie.
+
+**Exemple** :
+
+```python
+# Simple et direct
+def calculate_tax(self, cart: Cart) -> Decimal:
+    total_tax = Decimal("0")
+    for item in cart.items:
+        category = item.product.category
+        tax_rate = self.tax_rates.get(category, Decimal("0"))
+        item_tax = item.subtotal * tax_rate
+        total_tax += item_tax
+    return total_tax
 ```
 
-### Pourquoi pas de base de données ? (YAGNI)
+### DRY (Don't Repeat Yourself)
 
-**YAGNI (You Aren't Gonna Need It) :**
-- Le projet est une **démo** de bonnes pratiques, pas un système de production
-- Les données sont éphémères (panier "fake")
-- Pas de besoin de persistance identifié
-- Ajouter une DB ajouterait de la complexité inutile
+**Factorisations effectuées** :
 
-**Si besoin futur :**
-- L'architecture modulaire permet d'ajouter facilement une couche de persistance
-- Le service reste indépendant et peut être étendu
+1. **Calcul de sous-total** : Factorisé dans `CartItem.subtotal` et `Cart.subtotal`
+   - Une seule source de vérité pour le calcul
 
-### Pourquoi pas de cache ? (YAGNI)
+2. **Validation des modèles** : Factorisée dans `__post_init__` pour chaque modèle
+   - Évite la duplication de code de validation
 
-- Les calculs sont simples et rapides
-- Pas de charge importante identifiée
-- Ajouter un cache serait prématuré
+3. **Gestion des erreurs** : Pattern réutilisé dans tous les endpoints
+   - Try/except avec logging et retour HTTP approprié
 
-### Pourquoi pas de microservices ? (KISS)
+4. **Configuration des taxes** : Centralisée dans `TaxCalculator`
+   - Un seul endroit pour modifier les taux
 
-- L'application est simple et monolithique
-- Pas de besoin de scalabilité horizontale
-- Un monolithe est plus simple à maintenir pour ce cas d'usage
+**Exemple** :
 
-## Principes appliqués
+```python
+# DRY : Calcul du sous-total factorisé
+@property
+def subtotal(self) -> Decimal:
+    return self.product.price * Decimal(self.quantity)
+```
 
-### Séparation des responsabilités
+### YAGNI (You Aren't Gonna Need It)
 
-- **Routes** : Définition des endpoints
-- **Controllers** : Gestion HTTP, validation, logging
-- **Services** : Logique métier pure
-- **Utils** : Fonctions utilitaires réutilisables
+**Fonctionnalités non implémentées** (car non nécessaires) :
 
-### Testabilité
+1. **Pas de persistance** : Pas de base de données car non requise pour la démo
+2. **Pas d'authentification** : Non nécessaire pour un checkout simplifié
+3. **Pas de gestion de commandes** : Seulement le calcul, pas la création de commandes
+4. **Pas de gestion de stock** : Non requis pour le calcul
+5. **Pas de multiples devises** : Seulement l'euro
+6. **Pas de cache** : Non nécessaire pour la démo
+7. **Pas de rate limiting** : Non requis pour un projet éducatif
 
-- Service isolé → tests unitaires faciles
-- Validation centralisée → tests de validation isolés
-- Pas de dépendances HTTP dans le service → tests rapides
+**Ce qui est implémenté** : Exactement ce qui est nécessaire pour répondre aux exigences.
 
-### Maintenabilité
+## 🔒 Gestion des erreurs
 
-- Code organisé et modulaire
-- Chaque fichier a une responsabilité claire
-- Facile à comprendre et à modifier
+### Stratégie
 
-## Évolutions possibles
+1. **Validation au niveau des modèles** : Les modèles valident leurs données dans `__post_init__`
+2. **Gestion explicite dans l'API** : Try/except avec logs et retours HTTP appropriés
+3. **Messages d'erreur clairs** : Messages explicites pour faciliter le débogage
 
-Si le projet devait évoluer :
+### Exemple
 
-1. **Ajout d'une base de données**
-   - Créer `src/repositories/` pour la persistance
-   - Le service reste inchangé
+```python
+try:
+    product = Product(...)
+except ValueError as e:
+    logger.warning("Données invalides", extra={"error": str(e)})
+    return jsonify({"error": str(e)}), 400
+```
 
-2. **Ajout d'authentification**
-   - Créer `src/middleware/auth.js`
-   - Ajouter aux routes nécessaires
+## 📊 Logging et observabilité
 
-3. **Ajout de plusieurs endpoints**
-   - Réutiliser les services et validators existants
-   - Créer de nouveaux controllers/routes
+### Stratégie de logging
 
-L'architecture actuelle permet ces évolutions sans refactoring majeur.
+1. **Niveaux appropriés** :
+   - `INFO` : Opérations normales (création produit, checkout)
+   - `WARNING` : Erreurs de validation (champ manquant, produit non trouvé)
+   - `ERROR` : Erreurs inattendues (avec `exc_info=True`)
+
+2. **Contexte non sensible** : Les logs contiennent des IDs, pas de données sensibles
+
+3. **Format structuré** : Utilisation de `extra` pour le contexte
+
+### Exemple
+
+```python
+logger.info("Produit créé", extra={"product_id": product.id, "name": product.name})
+logger.warning("Produit non trouvé", extra={"product_id": product_id})
+```
+
+## 🧪 Tests
+
+### Stratégie de test
+
+1. **Tests unitaires** : Chaque modèle et service est testé indépendamment
+2. **Tests d'intégration** : Tests des endpoints API
+3. **Couverture** : Objectif de couverture élevée pour la logique métier
+
+### Organisation
+
+- `tests/test_models.py` : Tests des modèles
+- `tests/test_services.py` : Tests des services
+- `tests/test_api.py` : Tests de l'API
+
+## 🚀 Évolutivité
+
+### Points d'extension futurs
+
+1. **Base de données** : Remplacer le stockage en mémoire par une DB
+2. **Authentification** : Ajouter JWT si nécessaire
+3. **Cache** : Ajouter Redis pour les produits fréquemment consultés
+4. **Queue** : Ajouter Celery pour les opérations asynchrones
+
+### Architecture modulaire
+
+L'architecture actuelle permet d'ajouter ces fonctionnalités sans refactoring majeur grâce à la séparation des responsabilités.
+
+## 📝 Conclusion
+
+Cette architecture respecte les principes demandés :
+- ✅ **KISS** : Solutions simples, pas d'usine à gaz
+- ✅ **DRY** : Factorisation pour une seule source de vérité
+- ✅ **YAGNI** : Seulement ce qui est nécessaire
+- ✅ **Séparation des responsabilités** : Chaque module a un rôle unique
+- ✅ **Dépendances unidirectionnelles** : Pas de dépendances circulaires
+
+L'architecture est maintenable, testable et évolutive.
+
+## 👤 Auteurs
+
+**Romain** et **Xerly**
+
+Projet réalisé dans le cadre du cours sur les bonnes pratiques de développement.
 
