@@ -5,6 +5,7 @@ from decimal import Decimal
 from typing import Dict, Optional
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from ..models.cart import Cart
 from ..models.discount import Discount, DiscountType
@@ -18,6 +19,9 @@ logger = logging.getLogger(__name__)
 def create_app() -> Flask:
     """Crée et configure l'application Flask."""
     app = Flask(__name__)
+    
+    # Configuration CORS pour permettre les requêtes depuis le navigateur
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     # Configuration des taux de taxe par défaut
     default_tax_rates = {

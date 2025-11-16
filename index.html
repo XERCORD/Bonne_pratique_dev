@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Simplifié - Projet Bonnes Pratiques</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">🛒 Checkout Simplifié</h1>
+                <p class="subtitle">Système de checkout avec calcul de panier, taxes et remises avancées</p>
+                <div class="badges">
+                    <span class="badge">Python 3.9+</span>
+                    <span class="badge">Flask 3.0.0</span>
+                    <span class="badge badge-success">100% Testé</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="#overview" class="nav-link">Vue d'ensemble</a>
+            <a href="#features" class="nav-link">Fonctionnalités</a>
+            <a href="#test" class="nav-link">🧪 Tester</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+            <a href="#structure" class="nav-link">Structure</a>
+            <a href="#docs" class="nav-link">Documentation</a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Vue d'ensemble -->
+            <section id="overview" class="section">
+                <h2 class="section-title">📋 Vue d'ensemble</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">✅</div>
+                        <h3 class="card-title">Statut</h3>
+                        <p class="card-text">8/8 tests réussis (100%)</p>
+                        <p class="card-text">Tous les composants vérifiés</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🚀</div>
+                        <h3 class="card-title">Technologies</h3>
+                        <p class="card-text">Python • Flask • REST API</p>
+                        <p class="card-text">Black • Flake8 • MyPy</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📚</div>
+                        <h3 class="card-title">Documentation</h3>
+                        <p class="card-text">Architecture • Tests • Workflow</p>
+                        <p class="card-text">Guide complet disponible</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔗</div>
+                        <h3 class="card-title">Repository</h3>
+                        <p class="card-text">
+                            <a href="https://github.com/XERCORD/Bonne_pratique_dev" target="_blank" class="link">GitHub</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fonctionnalités -->
+            <section id="features" class="section">
+                <h2 class="section-title">🚀 Fonctionnalités</h2>
+                <div class="cards-grid">
+                    <div class="card feature-card">
+                        <h3 class="card-title">📦 Gestion de produits</h3>
+                        <p class="card-text">Création et récupération de produits avec prix et catégorie</p>
+                        <code class="code">POST /products<br>GET /products/{id}</code>
+                    </div>
+                    <div class="card feature-card">
+                        <h3 class="card-title">🛒 Gestion de panier</h3>
+                        <p class="card-text">Ajout, modification et suppression d'articles</p>
+                        <code class="code">Intégré dans /checkout</code>
+                    </div>
+                    <div class="card feature-card">
+                        <h3 class="card-title">💰 Calcul de taxes</h3>
+                        <p class="card-text">Taxes configurables par catégorie avec calcul proportionnel après remise</p>
+                        <code class="code">Calculé automatiquement</code>
+                    </div>
+                    <div class="card feature-card">
+                        <h3 class="card-title">🎫 Système de remises</h3>
+                        <p class="card-text">Remises globale, par catégorie, avec montant minimum</p>
+                        <code class="code">POST /discounts</code>
+                    </div>
+                    <div class="card feature-card">
+                        <h3 class="card-title">🌐 API REST</h3>
+                        <p class="card-text">Endpoints pour toutes les opérations</p>
+                        <code class="code">Flask REST API</code>
+                    </div>
+                    <div class="card feature-card">
+                        <h3 class="card-title">🧪 Tests complets</h3>
+                        <p class="card-text">Tests unitaires et d'intégration</p>
+                        <code class="code">8/8 tests réussis</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture -->
+            <section id="architecture" class="section">
+                <h2 class="section-title">🏗️ Architecture</h2>
+                <div class="cards-grid">
+                    <div class="card architecture-card">
+                        <h3 class="card-title">📐 Principes appliqués</h3>
+                        <ul class="list">
+                            <li><strong>KISS</strong> - Keep It Simple, Stupid</li>
+                            <li><strong>DRY</strong> - Don't Repeat Yourself</li>
+                            <li><strong>YAGNI</strong> - You Aren't Gonna Need It</li>
+                            <li><strong>SOLID</strong> - Principes SOLID</li>
+                        </ul>
+                    </div>
+                    <div class="card architecture-card">
+                        <h3 class="card-title">🎯 Découpage</h3>
+                        <ul class="list">
+                            <li><strong>Models</strong> - Représentation des données</li>
+                            <li><strong>Services</strong> - Logique métier</li>
+                            <li><strong>API</strong> - Couche REST</li>
+                            <li><strong>Tests</strong> - Tests unitaires et intégration</li>
+                        </ul>
+                    </div>
+                    <div class="card architecture-card">
+                        <h3 class="card-title">🔗 Dépendances</h3>
+                        <div class="dependency-flow">
+                            <div class="flow-item">API</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">Services</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">Models</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Structure du projet -->
+            <section id="structure" class="section">
+                <h2 class="section-title">📁 Structure du projet</h2>
+                <div class="structure-tree">
+                    <div class="tree-item">
+                        <span class="tree-icon">📂</span>
+                        <span class="tree-name">src/</span>
+                        <div class="tree-children">
+                            <div class="tree-item">
+                                <span class="tree-icon">📂</span>
+                                <span class="tree-name">models/</span>
+                                <div class="tree-children">
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">product.py</span></div>
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">cart.py</span></div>
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">discount.py</span></div>
+                                </div>
+                            </div>
+                            <div class="tree-item">
+                                <span class="tree-icon">📂</span>
+                                <span class="tree-name">services/</span>
+                                <div class="tree-children">
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">checkout_service.py</span></div>
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">tax_calculator.py</span></div>
+                                </div>
+                            </div>
+                            <div class="tree-item">
+                                <span class="tree-icon">📂</span>
+                                <span class="tree-name">api/</span>
+                                <div class="tree-children">
+                                    <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">app.py</span></div>
+                                </div>
+                            </div>
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">main.py</span></div>
+                        </div>
+                    </div>
+                    <div class="tree-item">
+                        <span class="tree-icon">📂</span>
+                        <span class="tree-name">tests/</span>
+                        <div class="tree-children">
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">test_models.py</span></div>
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">test_services.py</span></div>
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">test_api.py</span></div>
+                        </div>
+                    </div>
+                    <div class="tree-item">
+                        <span class="tree-icon">📂</span>
+                        <span class="tree-name">docs/</span>
+                        <div class="tree-children">
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">ARCHITECTURE.md</span></div>
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">BUG_REPORT.md</span></div>
+                            <div class="tree-item"><span class="tree-icon">📄</span><span class="tree-name">TESTS_RESULTS.md</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tester le Checkout -->
+            <section id="test" class="section">
+                <h2 class="section-title">🧪 Tester le Checkout</h2>
+                
+                <div class="test-container">
+                    <!-- Configuration API -->
+                    <div class="test-section">
+                        <h3 class="test-section-title">⚙️ Configuration API</h3>
+                        <div class="api-config">
+                            <label for="api-url">URL de l'API :</label>
+                            <input type="text" id="api-url" value="http://localhost:5000" class="input-field">
+                            <button onclick="checkApiHealth()" class="btn btn-secondary">Vérifier la connexion</button>
+                            <div id="api-status" class="status-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Créer un produit -->
+                    <div class="test-section">
+                        <h3 class="test-section-title">📦 Créer un produit</h3>
+                        <form id="product-form" class="test-form" onsubmit="createProduct(event)">
+                            <div class="form-group">
+                                <label for="product-id">ID du produit :</label>
+                                <input type="text" id="product-id" required class="input-field" placeholder="ex: prod1">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-name">Nom :</label>
+                                <input type="text" id="product-name" required class="input-field" placeholder="ex: Laptop">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Prix :</label>
+                                <input type="number" id="product-price" step="0.01" required class="input-field" placeholder="ex: 999.99">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Catégorie :</label>
+                                <select id="product-category" class="input-field">
+                                    <option value="food">Food</option>
+                                    <option value="electronics" selected>Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Créer le produit</button>
+                        </form>
+                        <div id="product-result" class="result-box"></div>
+                    </div>
+
+                    <!-- Créer une remise -->
+                    <div class="test-section">
+                        <h3 class="test-section-title">🎫 Créer une remise</h3>
+                        <form id="discount-form" class="test-form" onsubmit="createDiscount(event)">
+                            <div class="form-group">
+                                <label for="discount-code">Code de remise :</label>
+                                <input type="text" id="discount-code" required class="input-field" placeholder="ex: SAVE10">
+                            </div>
+                            <div class="form-group">
+                                <label for="discount-type">Type :</label>
+                                <select id="discount-type" class="input-field" onchange="toggleDiscountFields()">
+                                    <option value="percentage">Pourcentage (%)</option>
+                                    <option value="fixed">Montant fixe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="discount-value">Valeur :</label>
+                                <input type="number" id="discount-value" step="0.01" required class="input-field" placeholder="ex: 10">
+                            </div>
+                            <div class="form-group">
+                                <label for="discount-min-amount">Montant minimum (optionnel) :</label>
+                                <input type="number" id="discount-min-amount" step="0.01" class="input-field" placeholder="ex: 100">
+                            </div>
+                            <div class="form-group">
+                                <label for="discount-category">Catégorie (optionnel) :</label>
+                                <select id="discount-category" class="input-field">
+                                    <option value="">Toutes les catégories</option>
+                                    <option value="food">Food</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Créer la remise</button>
+                        </form>
+                        <div id="discount-result" class="result-box"></div>
+                    </div>
+
+                    <!-- Panier et Checkout -->
+                    <div class="test-section">
+                        <h3 class="test-section-title">🛒 Panier et Checkout</h3>
+                        <div class="cart-section">
+                            <div class="cart-items-container">
+                                <h4>Articles dans le panier :</h4>
+                                <div id="cart-items" class="cart-items">
+                                    <p class="empty-cart">Aucun article dans le panier</p>
+                                </div>
+                            </div>
+                            <form id="add-to-cart-form" class="test-form" onsubmit="addToCart(event)">
+                                <h4>Ajouter au panier :</h4>
+                                <div class="form-group">
+                                    <label for="cart-product-id">ID du produit :</label>
+                                    <input type="text" id="cart-product-id" required class="input-field" placeholder="ex: prod1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cart-quantity">Quantité :</label>
+                                    <input type="number" id="cart-quantity" min="1" value="1" required class="input-field">
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Ajouter au panier</button>
+                            </form>
+                            <div class="checkout-section">
+                                <form id="checkout-form" class="test-form" onsubmit="calculateCheckout(event)">
+                                    <div class="form-group">
+                                        <label for="checkout-discount-code">Code de remise (optionnel) :</label>
+                                        <input type="text" id="checkout-discount-code" class="input-field" placeholder="ex: SAVE10">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Calculer le checkout</button>
+                                    <button type="button" onclick="clearCart()" class="btn btn-danger">Vider le panier</button>
+                                </form>
+                                <div id="checkout-result" class="result-box checkout-result"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documentation -->
+            <section id="docs" class="section">
+                <h2 class="section-title">📚 Documentation</h2>
+                <div class="cards-grid">
+                    <div class="card doc-card">
+                        <h3 class="card-title">📖 Architecture</h3>
+                        <p class="card-text">Découpage en responsabilités, dépendances, principes KISS/DRY/YAGNI</p>
+                        <a href="docs/ARCHITECTURE.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">💰 Calcul Taxes/Remises</h3>
+                        <p class="card-text">Documentation complète du système de calcul avec formules et exemples</p>
+                        <a href="docs/CALCUL_TAXES_REMISES.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">✅ Résultats Tests</h3>
+                        <p class="card-text">Résultats détaillés de tous les tests effectués</p>
+                        <a href="docs/TESTS_RESULTS.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">🐛 Bug Report</h3>
+                        <p class="card-text">Exemple de bug report avec méthode de débogage</p>
+                        <a href="docs/BUG_REPORT.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">🚀 Améliorations</h3>
+                        <p class="card-text">Liste des améliorations possibles du projet</p>
+                        <a href="docs/AMELIORATIONS_POSSIBLES.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">🌿 Git Workflow</h3>
+                        <p class="card-text">Exemple de workflow Git complet</p>
+                        <a href="docs/GIT_WORKFLOW_EXAMPLE.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">🔀 PR Example</h3>
+                        <p class="card-text">Exemple de Pull Request</p>
+                        <a href="docs/PR_EXAMPLE.md" class="doc-link">Voir →</a>
+                    </div>
+                    <div class="card doc-card">
+                        <h3 class="card-title">📝 Guide Git</h3>
+                        <p class="card-text">Guide complet pour pousser le projet sur GitHub</p>
+                        <a href="GUIDE_GIT.md" class="doc-link">Voir →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Commandes -->
+            <section class="section">
+                <h2 class="section-title">⚙️ Commandes principales</h2>
+                <div class="commands-grid">
+                    <div class="command-card">
+                        <h3 class="command-title">Installation</h3>
+                        <code class="command-code">make install-dev</code>
+                    </div>
+                    <div class="command-card">
+                        <h3 class="command-title">Tests</h3>
+                        <code class="command-code">make test</code>
+                    </div>
+                    <div class="command-card">
+                        <h3 class="command-title">Formatage</h3>
+                        <code class="command-code">make format</code>
+                    </div>
+                    <div class="command-card">
+                        <h3 class="command-title">Linting</h3>
+                        <code class="command-code">make lint</code>
+                    </div>
+                    <div class="command-card">
+                        <h3 class="command-title">Type Check</h3>
+                        <code class="command-code">make type-check</code>
+                    </div>
+                    <div class="command-card">
+                        <h3 class="command-title">Lancer l'API</h3>
+                        <code class="command-code">make run</code>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">Fait avec ❤️ par <strong>Romain</strong> et <strong>Xerly</strong></p>
+            <p class="footer-text">Projet réalisé dans le cadre du cours sur les bonnes pratiques de développement</p>
+            <a href="https://github.com/XERCORD/Bonne_pratique_dev" target="_blank" class="footer-link">🔗 Repository GitHub</a>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+

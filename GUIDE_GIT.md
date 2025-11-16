@@ -123,6 +123,69 @@ git remote add origin https://github.com/XERCORD/Bonne_pratique_dev.git
 git pull origin main --allow-unrelated-histories
 ```
 
+### ⚠️ Force Push (Push forcé)
+
+**ATTENTION** : Le force push écrase l'historique sur GitHub. Utilisez-le uniquement si vous êtes sûr de ce que vous faites !
+
+#### Quand utiliser le force push ?
+
+- ✅ Vous travaillez seul sur le projet
+- ✅ Vous voulez réécrire l'historique (après un rebase, amend, etc.)
+- ✅ Le repository distant a des commits que vous voulez remplacer
+
+#### ⚠️ Quand NE PAS utiliser le force push ?
+
+- ❌ Si d'autres personnes travaillent sur le projet
+- ❌ Sur une branche partagée (main, develop)
+- ❌ Si vous n'êtes pas sûr de ce que vous faites
+
+#### Commandes pour forcer le push
+
+**Option 1 : Force push simple**
+```bash
+git push -f origin main
+```
+
+**Option 2 : Force push avec lease (plus sûr)**
+```bash
+git push --force-with-lease origin main
+```
+
+> 💡 `--force-with-lease` est plus sûr car il vérifie que personne d'autre n'a poussé entre temps. Si quelqu'un a poussé, la commande échouera.
+
+**Option 3 : Force push d'une branche spécifique**
+```bash
+git push -f origin nom-de-la-branche
+```
+
+#### Exemple de scénario
+
+```bash
+# Vous avez fait des modifications locales et un amend
+git commit --amend -m "feat: nouveau message de commit"
+
+# Le push normal échoue car l'historique a changé
+git push origin main
+# Erreur: ! [rejected] main -> main (non-fast-forward)
+
+# Solution : Force push (si vous êtes sûr)
+git push -f origin main
+# ou plus sûr
+git push --force-with-lease origin main
+```
+
+#### ⚠️ Récupérer après un force push accidentel
+
+Si quelqu'un a fait un force push et que vous avez perdu des commits :
+
+```bash
+# Récupérer l'historique perdu (si disponible)
+git reflog
+
+# Revenir à un commit spécifique
+git reset --hard HEAD@{n}  # où n est le numéro dans reflog
+```
+
 ---
 
 ## 📚 Bonnes pratiques

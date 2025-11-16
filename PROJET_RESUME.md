@@ -61,6 +61,18 @@
 - ✅ Exemple de workflow Git complet (`docs/GIT_WORKFLOW_EXAMPLE.md`)
 - ✅ Convention de commits documentée
 
+### 9. Interface web interactive
+
+- ✅ **Site web complet** : Interface HTML/CSS/JS pour tester le checkout
+- ✅ **Design moderne** : Interface en violet sombre avec design soigné
+- ✅ **Fonctionnalités complètes** : Création de produits, remises, panier, calcul checkout
+- ✅ **Configuration CORS** : Support complet des requêtes cross-origin depuis le navigateur
+- ✅ **Serveur web intégré** : Serveur HTTP simple (`serve_web.py`) pour servir l'interface web
+- ✅ **Script tout-en-un** : `lancer_tout.bat` pour lancer API + serveur web automatiquement
+- ✅ **Scripts de lancement** : Fichiers `.bat` pour Windows pour démarrer l'API et le serveur web facilement
+- ✅ **Test interactif** : Tester toutes les fonctionnalités sans ligne de commande
+- ✅ **Guide de démarrage** : Documentation complète pour le démarrage et le dépannage
+
 ## 📁 Structure du projet
 
 ```
@@ -77,6 +89,15 @@
 │   ├── PR_EXAMPLE.md
 │   └── GIT_WORKFLOW_EXAMPLE.md
 ├── scripts/                # Scripts d'initialisation
+├── index.html              # Interface web principale
+├── styles.css              # Styles CSS de l'interface
+├── app.js                  # Logique JavaScript de l'interface
+├── serve_web.py            # Serveur HTTP simple pour servir l'interface web
+├── lancer_tout.bat         # ⭐ Script tout-en-un (API + serveur web)
+├── lancer_api.bat          # Script Windows pour lancer l'API (complet)
+├── lancer_api_simple.bat   # Script Windows pour lancer l'API (simple)
+├── lancer_web.bat          # Script Windows pour lancer le serveur web
+├── GUIDE_DEMARRAGE.md      # Guide de démarrage rapide et dépannage
 ├── README.md               # Documentation principale
 ├── CONTRIBUTING.md         # Guide de contribution
 ├── CHANGELOG.md            # Historique des changements
@@ -109,7 +130,23 @@ make type-check
 
 # Lancer l'application
 make run
+# ou (Windows)
+lancer_api.bat
 ```
+
+## 🌐 Interface Web
+
+Le projet inclut maintenant une **interface web interactive** pour tester le checkout :
+
+- **Fichiers** : `index.html`, `styles.css`, `app.js`, `serve_web.py`
+- **Fonctionnalités** : Création de produits, remises, gestion du panier, calcul du checkout
+- **Lancement rapide** : Utiliser `lancer_tout.bat` pour lancer API + serveur web automatiquement
+- **Lancement manuel** : 
+  - Lancer l'API : `lancer_api.bat` ou `python -m src.main`
+  - Lancer le serveur web : `lancer_web.bat` ou `python serve_web.py`
+  - Ouvrir : `http://localhost:8000/index.html`
+- **Configuration CORS** : Support complet des requêtes cross-origin
+- **Scripts Windows** : Scripts `.bat` pour démarrer facilement l'API et le serveur web
 
 ## 📊 Conformité aux exigences
 
@@ -171,6 +208,12 @@ make run
 - Le code suit les conventions Python (PEP 8)
 - Les tests couvrent les cas principaux et les cas limites
 - La documentation est complète et détaillée
+- **Nouveau** : Interface web interactive pour tester le checkout sans ligne de commande
+- **Nouveau** : Script tout-en-un (`lancer_tout.bat`) pour lancer API + serveur web automatiquement
+- **Nouveau** : Configuration CORS pour permettre les requêtes depuis le navigateur
+- **Nouveau** : Serveur web intégré pour servir l'interface web
+- **Nouveau** : Scripts Windows (.bat) pour faciliter le lancement de l'API et du serveur web
+- **Nouveau** : Guide de démarrage rapide avec dépannage
 
 ## 👤 Auteurs
 

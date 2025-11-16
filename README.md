@@ -2,7 +2,7 @@
 
 > Système de checkout simplifié avec calcul de panier, taxes et remises avancées  
 > API REST développée en Python avec Flask  
-> ✨ **Nouveau** : Remises par catégorie, documentation complète, tests à 100%
+> ✨ **Nouveau** : Interface web interactive, remises par catégorie, documentation complète, tests à 100%
 
 <div align="center">
 
@@ -23,12 +23,14 @@
 |---------|-------------|
 | [✅ Statut](#-statut-du-projet) | Vérifications et tests effectués |
 | [🚀 Fonctionnalités](#-fonctionnalités) | Liste des fonctionnalités disponibles |
+| [🌐 Interface Web](#-interface-web) | Site web interactif pour tester le checkout |
 | [🏗️ Architecture](#️-architecture) | Principes et structure du projet |
 | [📦 Installation](#-installation) | Guide d'installation pas à pas |
 | [🎯 Utilisation](#-utilisation) | Exemples d'utilisation de l'API |
 | [🧪 Tests](#-tests) | Comment lancer les tests |
 | [🔍 Qualité](#-qualité-du-code) | Outils de qualité de code |
 | [📝 Workflow Git](#-workflow-git) | Guide de contribution |
+| [🔧 Dépannage](#-dépannage) | Solutions aux problèmes courants |
 | [📚 Documentation](#-documentation) | Liens vers la documentation |
 
 ---
@@ -55,6 +57,11 @@
 
 ### 🆕 Dernières mises à jour
 
+- ✅ **Interface web interactive** : Site web HTML/CSS/JS pour tester le checkout sans ligne de commande
+- ✅ **Script tout-en-un** : `lancer_tout.bat` pour lancer API + serveur web automatiquement
+- ✅ **Configuration CORS** : Support complet des requêtes cross-origin depuis le navigateur
+- ✅ **Serveur web intégré** : Serveur HTTP simple pour servir l'interface web
+- ✅ **Scripts de lancement Windows** : Fichiers `.bat` pour démarrer l'API et le serveur web facilement
 - ✅ **Remises par catégorie** : Les remises peuvent maintenant cibler une catégorie spécifique
 - ✅ **Documentation des calculs** : Guide complet avec formules et exemples
 - ✅ **Scripts de démonstration** : Exemples pratiques pour tester le système
@@ -88,6 +95,91 @@
 - ✅ **Pourcentage ou fixe** : Deux types de remises disponibles
 
 > 📖 **Documentation complète** : Consultez [Calcul Taxes/Remises](docs/CALCUL_TAXES_REMISES.md) pour tous les détails
+
+---
+
+## 🌐 Interface Web
+
+### 🎨 Site web interactif
+
+Le projet inclut une **interface web complète** pour tester le checkout de manière visuelle et intuitive, sans avoir besoin d'utiliser `curl` ou Postman.
+
+#### ✨ Fonctionnalités de l'interface
+
+- 🎨 **Design moderne** : Interface en violet sombre avec un design soigné
+- 📦 **Gestion de produits** : Créer des produits directement depuis l'interface
+- 🎫 **Gestion de remises** : Créer des remises (pourcentage, fixe, par catégorie)
+- 🛒 **Panier interactif** : Ajouter, retirer des articles du panier
+- 💰 **Calcul en temps réel** : Calculer le checkout avec affichage détaillé (sous-total, remise, taxes, total)
+- ⚙️ **Configuration API** : Changer l'URL de l'API facilement
+
+#### 🚀 Utilisation rapide
+
+**⭐ Option 1 : Script tout-en-un (Recommandé)**
+
+Le plus simple pour démarrer :
+
+```bash
+lancer_tout.bat
+```
+
+Ce script lance automatiquement :
+- ✅ L'API Flask sur `http://localhost:5000`
+- ✅ Le serveur web sur `http://localhost:8000`
+- ✅ Ouvre le navigateur automatiquement
+
+**Option 2 : Lancer séparément**
+
+1. **Lancer l'API** (fenêtre 1) :
+   ```bash
+   # Windows
+   lancer_api.bat
+   
+   # Linux/Mac ou Make
+   make run
+   
+   # Commande directe
+   python -m src.main
+   ```
+
+2. **Lancer le serveur web** (fenêtre 2) :
+   ```bash
+   # Windows
+   lancer_web.bat
+   
+   # Linux/Mac
+   python serve_web.py
+   ```
+
+3. **Ouvrir dans le navigateur** :
+   - `http://localhost:8000/index.html`
+
+**Option 3 : Sans serveur web (moins recommandé)**
+
+Si vous ouvrez `index.html` directement, assurez-vous que :
+- L'API est lancée sur `http://localhost:5000`
+- CORS est activé (inclus automatiquement)
+
+#### 📁 Fichiers de l'interface
+
+| Fichier | Description |
+|---------|-------------|
+| `index.html` | Page principale avec toutes les sections |
+| `styles.css` | Styles en violet sombre |
+| `app.js` | Logique JavaScript pour interagir avec l'API |
+| `serve_web.py` | Serveur HTTP simple pour servir l'interface web |
+| `lancer_tout.bat` | ⭐ Script tout-en-un (API + serveur web) |
+| `lancer_api.bat` | Script Windows pour lancer l'API (avec vérifications) |
+| `lancer_api_simple.bat` | Script Windows simplifié pour lancer l'API |
+| `lancer_web.bat` | Script Windows pour lancer le serveur web |
+
+#### 🔧 Configuration CORS
+
+L'API est configurée avec **CORS activé** pour permettre les requêtes depuis le navigateur. Le package `flask-cors` est inclus dans les dépendances.
+
+> 💡 **Astuce** : Utilisez `lancer_tout.bat` pour un démarrage simple et automatique !
+> 
+> ⚠️ **Note** : Pour éviter les erreurs "Failed to fetch", utilisez le serveur web (`http://localhost:8000`) plutôt que d'ouvrir `index.html` directement.
 
 ---
 
@@ -149,23 +241,85 @@ python -c "from src.models import Product, Cart, Discount; from src.services imp
 
 ### 🚀 Démarrer l'application
 
-#### Option 1 : Avec Make
+#### ⭐ Option 1 : Script tout-en-un (Recommandé)
+
+Le plus simple pour démarrer l'API + interface web :
 
 ```bash
+lancer_tout.bat
+```
+
+Ce script lance automatiquement :
+- ✅ L'API Flask sur `http://localhost:5000`
+- ✅ Le serveur web sur `http://localhost:8000`
+- ✅ Ouvre le navigateur automatiquement
+
+#### Option 2 : Scripts Windows (.bat)
+
+**Lancer l'API uniquement** :
+```bash
+# Version complète (avec vérifications)
+lancer_api.bat
+
+# Version simple (lancement rapide)
+lancer_api_simple.bat
+```
+
+**Lancer le serveur web** :
+```bash
+lancer_web.bat
+```
+
+> 💡 Les scripts `.bat` vérifient automatiquement Python et les dépendances, et proposent de les installer si nécessaire.
+
+#### Option 3 : Avec Make
+
+```bash
+# Lancer l'API
 make run
+
+# Dans une autre fenêtre, lancer le serveur web
+python serve_web.py
 ```
 
-#### Option 2 : Commande directe
+#### Option 4 : Commandes directes
 
 ```bash
+# Fenêtre 1 : Lancer l'API
 python -m src.main
+
+# Fenêtre 2 : Lancer le serveur web
+python serve_web.py
 ```
 
-> 🌐 L'API sera accessible sur **http://localhost:5000**
+> 🌐 L'API sera accessible sur **http://localhost:5000**  
+> 🌐 L'interface web sera accessible sur **http://localhost:8000/index.html**
+
+> 💡 **Recommandation** : Utilisez `lancer_tout.bat` pour un démarrage simple et automatique !
 
 ---
 
-### 📝 Exemples d'utilisation
+### 🌐 Utiliser l'interface web (recommandé)
+
+La façon la plus simple de tester le checkout est d'utiliser l'interface web :
+
+**Méthode rapide** :
+```bash
+lancer_tout.bat
+```
+Le navigateur s'ouvrira automatiquement sur `http://localhost:8000/index.html`
+
+**Méthode manuelle** :
+1. Lancez l'API (voir section [Démarrer l'application](#-démarrer-lapplication))
+2. Lancez le serveur web : `lancer_web.bat` ou `python serve_web.py`
+3. Ouvrez `http://localhost:8000/index.html` dans votre navigateur
+4. Allez dans la section "🧪 Tester"
+5. Suivez les instructions à l'écran
+
+> 💡 L'interface web permet de tester toutes les fonctionnalités sans ligne de commande !  
+> ⚠️ **Important** : Utilisez `http://localhost:8000/index.html` plutôt que d'ouvrir `index.html` directement pour éviter les erreurs CORS.
+
+### 📝 Exemples d'utilisation (API REST)
 
 #### 1️⃣ Créer un produit
 
@@ -425,6 +579,7 @@ git push origin feature/ajout-remise-categorie
 | **PR Example** | Exemple de Pull Request | [🔀 Voir](docs/PR_EXAMPLE.md) |
 | **Git Workflow** | Exemple de workflow Git complet | [🌿 Voir](docs/GIT_WORKFLOW_EXAMPLE.md) |
 | **Contributing** | Guide de contribution | [✍️ Voir](CONTRIBUTING.md) |
+| **Guide de démarrage** | Guide de démarrage rapide et dépannage | [🚀 Voir](GUIDE_DEMARRAGE.md) |
 
 ---
 
@@ -449,6 +604,39 @@ Toutes les erreurs sont gérées explicitement avec :
 - ✅ Retours HTTP appropriés (400, 404, 409, 500)
 - ✅ Messages d'erreur clairs et explicites
 - ✅ Logs actionnables avec contexte non sensible
+
+---
+
+## 🔧 Dépannage
+
+### ❌ Erreur "Failed to fetch"
+
+**Problème** : Le navigateur ne peut pas se connecter à l'API.
+
+**Solutions** :
+1. ✅ **Utilisez le script tout-en-un** : `lancer_tout.bat` (recommandé)
+2. ✅ **Vérifiez que l'API est lancée** : Ouvrez `http://localhost:5000/health` dans votre navigateur
+3. ✅ **Utilisez le serveur web** : Ouvrez `http://localhost:8000/index.html` au lieu d'ouvrir `index.html` directement
+4. ✅ **Vérifiez que flask-cors est installé** : `pip install flask-cors==4.0.0`
+
+### ❌ Module flask_cors not found
+
+**Solution** :
+```bash
+pip install flask-cors==4.0.0
+```
+
+Ou utilisez `lancer_api.bat` qui l'installe automatiquement.
+
+### ❌ Port 5000 ou 8000 déjà utilisé
+
+**Solution** : Un autre programme utilise le port
+- Fermez l'autre programme
+- Ou modifiez les ports dans `src/main.py` (port 5000) et `serve_web.py` (port 8000)
+
+### 📖 Guide complet
+
+Consultez [GUIDE_DEMARRAGE.md](GUIDE_DEMARRAGE.md) pour un guide de dépannage complet.
 
 ---
 
