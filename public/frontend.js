@@ -60,7 +60,7 @@ function updateItemsList() {
   itemsList.innerHTML = '';
   
   if (items.length === 0) {
-    itemsList.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">Aucun article ajouté</p>';
+    itemsList.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">No items added</p>';
     return;
   }
 
@@ -107,7 +107,7 @@ if (checkoutForm) {
     const validItems = items.filter(item => item.name && item.price > 0 && item.quantity > 0);
     
     if (validItems.length === 0) {
-      showError('Veuillez ajouter au moins un article valide');
+      showError('Please add at least one valid item');
       return;
     }
 
@@ -127,13 +127,13 @@ if (checkoutForm) {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Erreur lors du calcul');
+        throw new Error(error.error || 'Calculation error');
       }
 
       const result = await response.json();
       displayResult(validItems, result, taxRate, discount);
     } catch (error) {
-      showError(error.message || 'Une erreur est survenue');
+      showError(error.message || 'An error occurred');
     } finally {
       if (loader) loader.setAttribute('aria-hidden', 'true');
     }
@@ -159,7 +159,7 @@ function displayResult(items, result, taxRate, discount) {
 
   // Update date
   if (ticketDate) {
-    ticketDate.textContent = new Date().toLocaleString('fr-FR');
+    ticketDate.textContent = new Date().toLocaleString('en-US');
   }
 
   // Display items

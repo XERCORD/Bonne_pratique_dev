@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -190,7 +190,7 @@
   <div class="health-container">
     <a href="/" class="back-link">
       <span>←</span>
-      <span>Retour à l'application</span>
+      <span>Back to application</span>
     </a>
 
     <div class="health-header">
@@ -205,20 +205,20 @@
       <div class="health-card">
         <h3>🔄 Uptime</h3>
         <div class="health-value" id="uptime">-</div>
-        <div class="health-label">Temps de fonctionnement</div>
+        <div class="health-label">Operating time</div>
       </div>
 
       <div class="health-card">
-        <h3>💾 Mémoire</h3>
+        <h3>💾 Memory</h3>
         <div class="health-value" id="memoryUsed">-</div>
-        <div class="health-label" id="memoryLabel">Utilisée / Totale</div>
+        <div class="health-label" id="memoryLabel">Used / Total</div>
         <div class="progress-bar">
           <div class="progress-fill" id="memoryProgress" style="width: 0%"></div>
         </div>
       </div>
 
       <div class="health-card">
-        <h3>⚙️ Environnement</h3>
+        <h3>⚙️ Environment</h3>
         <ul class="info-list">
           <li>
             <span class="label">Service</span>
@@ -229,7 +229,7 @@
             <span class="value" id="version">-</span>
           </li>
           <li>
-            <span class="label">Environnement</span>
+            <span class="label">Environment</span>
             <span class="value" id="environment">-</span>
           </li>
           <li>
@@ -237,7 +237,7 @@
             <span class="value" id="nodeVersion">-</span>
           </li>
           <li>
-            <span class="label">Plateforme</span>
+            <span class="label">Platform</span>
             <span class="value" id="platform">-</span>
           </li>
         </ul>
@@ -247,7 +247,7 @@
         <h3>✅ Checks</h3>
         <ul class="info-list">
           <li>
-            <span class="label">Serveur</span>
+            <span class="label">Server</span>
             <span class="value" id="serverCheck">-</span>
           </li>
           <li>
@@ -261,7 +261,7 @@
     <div style="text-align: center;">
       <button class="refresh-btn" onclick="loadHealthData()">
         <span>🔄</span>
-        <span>Actualiser</span>
+        <span>Refresh</span>
       </button>
     </div>
   </div>
@@ -327,6 +327,25 @@
       return bytes + ' MB';
     }
 
+    // Variables pour le suivi de l'uptime en temps réel
+    let baseUptimeSeconds = 0;
+    let uptimeStartTime = Date.now();
+    let uptimeInterval = null;
+    let baseTimestamp = null;
+
+    // Fonction pour mettre à jour l'uptime et le timestamp en temps réel
+    function updateUptimeDisplay() {
+      const elapsedSeconds = Math.floor((Date.now() - uptimeStartTime) / 1000);
+      const totalSeconds = baseUptimeSeconds + elapsedSeconds;
+      document.getElementById('uptime').textContent = formatUptime(totalSeconds);
+      
+      // Mettre à jour le timestamp en temps réel
+      if (baseTimestamp) {
+        const currentTime = new Date(baseTimestamp.getTime() + elapsedSeconds * 1000);
+        document.getElementById('timestamp').textContent = currentTime.toLocaleString('en-US');
+      }
+    }
+
     // Load health data
     async function loadHealthData() {
       try {
@@ -344,10 +363,15 @@
         
         // Update status
         document.getElementById('statusText').textContent = data.status === 'healthy' ? 'Healthy' : 'Unhealthy';
-        document.getElementById('timestamp').textContent = new Date(data.timestamp).toLocaleString('fr-FR');
         
-        // Update uptime
-        document.getElementById('uptime').textContent = data.uptimeFormatted || formatUptime(data.uptime);
+        // Stocker le timestamp de base pour la mise à jour en temps réel
+        baseTimestamp = new Date(data.timestamp);
+        document.getElementById('timestamp').textContent = baseTimestamp.toLocaleString('en-US');
+        
+        // Update uptime - stocker la valeur de base et démarrer le compteur
+        baseUptimeSeconds = data.uptime;
+        uptimeStartTime = Date.now();
+        updateUptimeDisplay();
         
         // Update memory
         const memoryUsed = data.memory.used;
@@ -379,7 +403,10 @@
     // Load on page load
     loadHealthData();
     
-    // Auto-refresh every 5 seconds
+    // Mettre à jour l'uptime chaque seconde
+    uptimeInterval = setInterval(updateUptimeDisplay, 1000);
+    
+    // Auto-refresh health data every 5 seconds (pour synchroniser avec le serveur)
     setInterval(loadHealthData, 5000);
   </script>
 </body>

@@ -83,7 +83,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 if (require.main === module) {
   app.listen(PORT, () => {
-    logger.info(`Server started on port ${PORT}`);
+    logger.info(`Server available at: http://localhost:${PORT}`);
     logger.info(`Documentation available at: http://localhost:${PORT}/docs`);
     logger.info(`Health check available at: http://localhost:${PORT}/health`);
   });
