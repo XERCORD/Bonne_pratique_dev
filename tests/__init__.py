@@ -1,0 +1,2 @@
+"""Tests du projet Checkout."""
+
