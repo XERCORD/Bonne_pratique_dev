@@ -120,7 +120,7 @@ Le projet inclut une **interface web complète** pour tester le checkout de mani
 Le plus simple pour démarrer :
 
 ```bash
-lancer_tout.bat
+.\lancer_tout.bat
 ```
 
 Ce script lance automatiquement :
@@ -133,7 +133,7 @@ Ce script lance automatiquement :
 1. **Lancer l'API** (fenêtre 1) :
    ```bash
    # Windows
-   lancer_api.bat
+   .\lancer_api.bat
    
    # Linux/Mac ou Make
    make run
@@ -145,7 +145,7 @@ Ce script lance automatiquement :
 2. **Lancer le serveur web** (fenêtre 2) :
    ```bash
    # Windows
-   lancer_web.bat
+   .\lancer_web.bat
    
    # Linux/Mac
    python serve_web.py
