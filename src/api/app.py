@@ -63,7 +63,7 @@ def create_app() -> Flask:
 
             products_db[product.id] = product
 
-            logger.info("Produit créé", extra={"product_id": product.id, "name": product.name})
+            logger.info("Produit créé", extra={"product_id": product.id, "product_name": product.name})
             return jsonify({"id": product.id, "name": product.name}), 201
 
         except KeyError as e:
@@ -74,6 +74,24 @@ def create_app() -> Flask:
             return jsonify({"error": str(e)}), 400
         except Exception as e:
             logger.error("Erreur lors de la création du produit", exc_info=True)
+            return jsonify({"error": "Erreur interne du serveur"}), 500
+
+    @app.route("/products", methods=["GET"])
+    def list_products() -> tuple:
+        """Liste tous les produits."""
+        try:
+            products = [
+                {
+                    "id": product.id,
+                    "name": product.name,
+                    "price": str(product.price),
+                    "category": product.category,
+                }
+                for product in products_db.values()
+            ]
+            return jsonify({"products": products}), 200
+        except Exception as e:
+            logger.error("Erreur lors de la récupération des produits", exc_info=True)
             return jsonify({"error": "Erreur interne du serveur"}), 500
 
     @app.route("/products/<product_id>", methods=["GET"])

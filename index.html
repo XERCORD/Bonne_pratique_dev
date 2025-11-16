@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Simplifié - Projet Bonnes Pratiques</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -239,6 +240,17 @@
                         <div id="product-result" class="result-box"></div>
                     </div>
 
+                    <!-- Liste des produits créés -->
+                    <div class="test-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 class="test-section-title" style="margin-bottom: 0;">🛍️ Produits créés</h3>
+                            <button onclick="loadProducts()" class="btn btn-secondary">🔄 Actualiser</button>
+                        </div>
+                        <div id="products-list" class="products-grid">
+                            <p class="empty-state">Aucun produit créé pour le moment</p>
+                        </div>
+                    </div>
+
                     <!-- Créer une remise -->
                     <div class="test-section">
                         <h3 class="test-section-title">🎫 Créer une remise</h3>
@@ -322,42 +334,42 @@
                     <div class="card doc-card">
                         <h3 class="card-title">📖 Architecture</h3>
                         <p class="card-text">Découpage en responsabilités, dépendances, principes KISS/DRY/YAGNI</p>
-                        <a href="docs/ARCHITECTURE.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/ARCHITECTURE.md', '📖 Architecture'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">💰 Calcul Taxes/Remises</h3>
                         <p class="card-text">Documentation complète du système de calcul avec formules et exemples</p>
-                        <a href="docs/CALCUL_TAXES_REMISES.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/CALCUL_TAXES_REMISES.md', '💰 Calcul Taxes/Remises'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">✅ Résultats Tests</h3>
                         <p class="card-text">Résultats détaillés de tous les tests effectués</p>
-                        <a href="docs/TESTS_RESULTS.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/TESTS_RESULTS.md', '✅ Résultats Tests'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">🐛 Bug Report</h3>
                         <p class="card-text">Exemple de bug report avec méthode de débogage</p>
-                        <a href="docs/BUG_REPORT.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/BUG_REPORT.md', '🐛 Bug Report'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">🚀 Améliorations</h3>
                         <p class="card-text">Liste des améliorations possibles du projet</p>
-                        <a href="docs/AMELIORATIONS_POSSIBLES.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/AMELIORATIONS_POSSIBLES.md', '🚀 Améliorations'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">🌿 Git Workflow</h3>
                         <p class="card-text">Exemple de workflow Git complet</p>
-                        <a href="docs/GIT_WORKFLOW_EXAMPLE.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/GIT_WORKFLOW_EXAMPLE.md', '🌿 Git Workflow'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">🔀 PR Example</h3>
                         <p class="card-text">Exemple de Pull Request</p>
-                        <a href="docs/PR_EXAMPLE.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('docs/PR_EXAMPLE.md', '🔀 PR Example'); return false;" class="doc-link">Voir →</a>
                     </div>
                     <div class="card doc-card">
                         <h3 class="card-title">📝 Guide Git</h3>
                         <p class="card-text">Guide complet pour pousser le projet sur GitHub</p>
-                        <a href="GUIDE_GIT.md" class="doc-link">Voir →</a>
+                        <a href="#" onclick="showDocumentation('GUIDE_GIT.md', '📝 Guide Git'); return false;" class="doc-link">Voir →</a>
                     </div>
                 </div>
             </section>
@@ -401,6 +413,25 @@
             <a href="https://github.com/XERCORD/Bonne_pratique_dev" target="_blank" class="footer-link">🔗 Repository GitHub</a>
         </footer>
     </div>
+
+    <!-- Modal pour afficher les documentations -->
+    <div id="doc-modal" class="doc-modal">
+        <div class="doc-modal-overlay" onclick="closeDocModal()"></div>
+        <div class="doc-modal-content">
+            <div class="doc-modal-header">
+                <h2 id="doc-modal-title">Documentation</h2>
+                <button class="doc-modal-close" onclick="closeDocModal()">✕</button>
+            </div>
+            <div class="doc-modal-body">
+                <div id="doc-modal-loading" class="doc-loading">Chargement de la documentation...</div>
+                <div id="doc-modal-content" class="markdown-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container pour les notifications toast -->
+    <div id="toast-container" class="toast-container"></div>
+
     <script src="app.js"></script>
 </body>
 </html>
